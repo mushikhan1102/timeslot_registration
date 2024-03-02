@@ -1,10 +1,52 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+
+import Navigation from '../components/nav_bar';
+import FormText from 'react-bootstrap/FormText'
 
 const Signup = () => {
 
 return(
     
-    <h1>Home</h1>
+    <>
+
+    <Navigation></Navigation>
+    <h1>Signup</h1>
+
+    <Form>
+      <Row className="mb-3">
+        <Form.Group as={Col} controlId="formGridEmail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control type="email" placeholder="Enter email" />
+        </Form.Group>
+
+        <Form.Group as={Col} controlId="formGridID">
+          <Form.Label>Access ID</Form.Label>
+          <Form.Control type="password" placeholder="ID" />
+        </Form.Group>
+      </Row>
+
+      <Form.Group className="mb-3" controlId="formGridFirstName">
+        <Form.Label>First Name</Form.Label>
+        <Form.Control placeholder="First Name" />
+      </Form.Group>
+
+      <Form.Group className="mb-3" controlId="formGridLastName">
+        <Form.Label>Last Name</Form.Label>
+        <Form.Control placeholder="Last Name" />
+      </Form.Group>
+
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+    </Form>
+
+    
+    
+    </>
 
 );
 
