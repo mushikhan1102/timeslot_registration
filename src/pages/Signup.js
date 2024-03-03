@@ -3,11 +3,23 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-
+import {useState} from 'react';
 import Navigation from '../components/nav_bar';
-import FormText from 'react-bootstrap/FormText'
+import FormText from 'react-bootstrap/FormText';
+import {auth, app} from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const Signup = () => {
+
+  const {email, setEmail} = useState('');
+  const {AccessID, setAccessID} = useState('');
+  const {firstName, setFirstName} = useState('');
+  const {lastName, setLastName} = useState('');
+  const {proj, setProj} = useState('');
+
+
+
+
 
 return(
     
