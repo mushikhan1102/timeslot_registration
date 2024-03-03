@@ -1,8 +1,15 @@
 import React from 'react';
 import Navigation from '../components/nav_bar';
 import "./styles.css"
+import {auth, app} from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import {useState} from 'react';
+
 
 const Login = () => {
+    
+  const {email, setEmail}= useState('');
+  const {AccessID, setAccessID}= useState('');
 
 return(
     
@@ -28,12 +35,13 @@ return(
                 <div class="input-control">
 
                     <input
-                    type="email" placeholder="Enter Email" class="input-field"></input>
+                    type="email" placeholder="Enter Email" value={email} onChange ={(e)=> setEmail(e.target.value)} class="input-field"></input>
                 </div>
 
                 <div class="input-control">
                     <input
-                    type="Access ID" placeholder="Enter Access ID" class="input-field"></input>
+                    type="Access ID" placeholder="Enter Access ID" value={AccessID} 
+                    onChange ={(e)=> setAccessID(e.target.value)} class="input-field"></input>
 
                 </div>
 
