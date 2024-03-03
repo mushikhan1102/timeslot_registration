@@ -8,9 +8,12 @@ return(
     <>
 
     <Navigation></Navigation>
-    <h1>Home</h1>
+    <h1>Project list</h1>
+
     
     </>
+
+    // list all project and times here from db
     
 
 );
