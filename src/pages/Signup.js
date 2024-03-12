@@ -1,72 +1,94 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import {useState} from 'react';
+import React, {useState} from 'react';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../firebase";
+import { setDoc, doc, Timestamp } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import Navigation from '../components/nav_bar';
-import FormText from 'react-bootstrap/FormText';
-import {auth, app} from '../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-
+import './styles.css';
 const Signup = () => {
+    const [data, setData] = useState({
 
-  const {email, setEmail} = useState('');
-  const {AccessID, setAccessID} = useState('');
-  const {firstName, setFirstName} = useState('');
-  const {lastName, setLastName} = useState('');
-  const {proj, setProj} = useState('');
+        name: "",
+        email: "",
+        password: "",
+        error: null,
+        leading: false,
 
-return(
-    
-    <>
+    })
 
-    <Navigation></Navigation>
-    <h1>Project Signup</h1>
+    const history = useNavigate();
 
-    <Form>
-      <Row className="mb-3">
-        <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
-        </Form.Group>
+    const handleChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value });
+      };
 
-        <Form.Group as={Col} controlId="formGridID">
-          <Form.Label>Access ID</Form.Label>
-          <Form.Control type="password" placeholder="ID" />
-        </Form.Group>
-      </Row>
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setData({ ...data, error: null, loading: true });
+        if (!name || !email || !password) {
+          setData({ ...data, error: "All fields are required" });
+        }
+        try {
+          const result = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          await setDoc(doc(db, "users", result.user.uid), {
+            uid: result.user.uid,
+            name,
+            email,
+            createdAt: Timestamp.fromDate(new Date()),
+            isOnline: true,
+          });
+          setData({
+            name: "",
+            email: "",
+            password: "",
+            error: null,
+            loading: false,
+          });
+          history("/");
+        } catch (err) {
+          setData({ ...data, error: err.message, loading: false });
+        }
+             
+      };
+ 
 
-      <Row className="mb-3">
+    const {name, email, password, error, loading} = data;
+    return(
+      <>
+      <Navigation></Navigation>
 
-      <Form.Group as={Col} controlId="formGridFirstName">
-        <Form.Label>First Name</Form.Label>
-        <Form.Control placeholder="First Name" />
-      </Form.Group>
+        <section>
+      <h3>Create An Account</h3>
+      <form className="form" onSubmit={handleSubmit}>
 
-      <Form.Group as={Col} controlId="formGridLastName">
-        <Form.Label>Last Name</Form.Label>
-        <Form.Control placeholder="Last Name" />
-      </Form.Group>
+        <div className="input_container">
+          <label htmlFor="name">Name</label>
+          <input type="text" name="name" value={name} onChange={handleChange} /> 
 
-      </Row>
-
-      <Form.Group className="mb-3" controlId="formGridprojectName">
-        <Form.Label>Project Name</Form.Label>
-        <Form.Control placeholder="Name of Project" />
-      </Form.Group>
-
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
-
-    
-    
+        </div>
+        <div className="input_container">
+          <label htmlFor="email">Email</label>
+          <input type="text" name="email" value={email} onChange={handleChange}/>
+        </div>
+        <div className="input_container">
+          <label htmlFor="password">Password</label>
+          <input type="password" name="password" value={password} onChange={handleChange}/>
+        </div>
+       {error ? <p className="error">{error}</p> : null} 
+        <div className="btn_container">
+        <button className="btn" disabled={loading}>{loading ? "registering in ..." : "register"} 
+            
+          </button>
+        </div>
+        
+      </form>
+    </section>
     </>
-
-);
-
-};
+    )
+}
 
 export default Signup;

@@ -4,14 +4,22 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
 
     <Routes>
-      <Route path="/" element={<Home/>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/signup" element={<Signup/>} />
+
+      <Route element={<PrivateRoute />}>
+                {
+                    //<Route exact path='/Home' element={< Home />}></Route>
+                }
+                
+            </Route>
+            <Route exact path="/" element={< Home />}></Route>
       
       
 
