@@ -6,10 +6,23 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import {useState} from 'react';
 
 
+
 const Login = () => {
     
   const {email, setEmail}= useState('');
-  const {AccessID, setAccessID}= useState('');
+  const {password, setPassword}= useState('');
+  const signIn = (e) => {
+    createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed up 
+    console.log(userCredential);
+    // ...
+  })
+  .catch((error) => {
+    console.log(error)
+    // ..
+  });
+  }
 
 return(
     
@@ -31,17 +44,18 @@ return(
                 
             </div>
 
-            <form>
+            <form onSubmit={signIn}>
                 <div class="input-control">
 
                     <input
-                    type="email" placeholder="Enter Email" value={email} onChange ={(e)=> setEmail(e.target.value)} class="input-field"></input>
+                    type="email" placeholder="Enter Email" value={email} 
+                    onChange ={(e)=> setEmail(e.target.value)} class="input-field"></input>
                 </div>
 
                 <div class="input-control">
                     <input
-                    type="Access ID" placeholder="Enter Access ID" value={AccessID} 
-                    onChange ={(e)=> setAccessID(e.target.value)} class="input-field"></input>
+                    type="Access ID" placeholder="Enter Access ID" value={password} 
+                    onChange ={(e)=> setPassword(e.target.value)} class="input-field"></input>
 
                 </div>
 

@@ -17,10 +17,6 @@ const Signup = () => {
   const {lastName, setLastName} = useState('');
   const {proj, setProj} = useState('');
 
-
-
-
-
 return(
     
     <>
